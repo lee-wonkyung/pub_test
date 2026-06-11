@@ -1,0 +1,99 @@
+/**
+ * Design tokens extracted from Figma file 9sOvux4EpLqxoExvLxzxjz (로그인 / 회원가입).
+ *
+ * Token consolidation decisions (see analysis):
+ * - The point violet appeared as three near-identical raw values in Figma
+ *   (#5D00FF login button, #5700ED signup button/fill). The named Figma token
+ *   was Primary_Point_Violet = #5D00FF, so that is the single source of truth here.
+ *   #5700ED is treated as a Figma drift, NOT a separate token.
+ * - Border greys appeared as both rgba(0,0,0,0.2) and #CCCCCC for the same
+ *   "input divider" role; unified under --color-border-input.
+ */
+
+:root {
+  /* ---- Brand ---- */
+  --color-point-violet: #5d00ff;
+  --color-point-violet-pressed: #5700ed;
+
+  /* ---- Neutrals ---- */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-grey-mid-1: #c4c7c5;
+  --color-grey-mid-2: #8e918f;
+  --color-grey-dark-1: #444746;
+
+  /* ---- Semantic ---- */
+  --color-text-primary: var(--color-black);
+  --color-text-on-brand: var(--color-white);
+  --color-text-placeholder: var(--color-grey-mid-1);
+  --color-required: #ff3333;
+  --color-border-input: rgba(0, 0, 0, 0.2);
+  --color-border-select: #cccccc;
+  --color-divider: rgba(0, 0, 0, 0.16);
+  --color-surface: var(--color-white);
+
+  /* ---- Brand: social ---- */
+  --color-kakao: #fee500;
+  --color-naver: #03c75a;
+  --color-google-border: #e8e8e8;
+
+  /* ---- Typography ---- */
+  --font-family-base: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Type scale — name = role. Each maps to a Figma text style. */
+  --text-button-lg-size: 18px;   /* style_HPX291 — login/signup button */
+  --text-button-lg-weight: var(--font-weight-semibold);
+
+  --text-cta-size: 16px;         /* style_S28Q4U — primary CTA (가입하기) */
+  --text-cta-weight: var(--font-weight-semibold);
+
+  --text-cta-sm-size: 14px;      /* M_CTA_Small / style_ULNPPQ — inline button */
+  --text-cta-sm-weight: var(--font-weight-semibold);
+
+  --text-title-size: 18px;       /* style_L1IMW2 — header title */
+  --text-title-weight: var(--font-weight-bold);
+  --text-title-line: 140%;
+
+  --text-label-size: 14px;       /* style_Q4YJZ0 — form label */
+  --text-label-weight: var(--font-weight-bold);
+
+  --text-body-size: 14px;        /* style_ETHAS8 — input text, radio label */
+  --text-body-weight: var(--font-weight-medium);
+
+  --text-input-size: 16px;       /* style_0CWICF / style_H5CCFN — input/placeholder */
+  --text-input-weight: var(--font-weight-regular);
+
+  --text-caption-size: 13px;     /* style_51R8Y0 — find id/password links */
+  --text-caption-weight: var(--font-weight-regular);
+
+  --text-meta-size: 14px;        /* style_DY4KUL — "SNS 계정으로 로그인" */
+  --text-meta-weight: var(--font-weight-medium);
+
+  --letter-spacing-tight: -0.01em;   /* -1% — most Pretendard text */
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-pill: 99px;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-2: 2px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-30: 30px;
+
+  /* ---- Layout ---- */
+  --screen-width: 393px;
+  --field-height: 48px;
+}

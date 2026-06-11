@@ -1,0 +1,64 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 100%;
+  color: var(--color-text-primary);
+  opacity: 0.8; /* Figma label opacity */
+}
+
+.required {
+  color: var(--color-required);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  background-color: var(--color-surface);
+}
+
+/* underline — login screen (layout_K5EU32): bottom border, taller padding */
+.underline {
+  height: var(--field-height);
+  padding: var(--space-16) 0;
+  border-bottom: 1px solid var(--color-border-input);
+}
+
+/* box — signup screen (layout_OHFEQN): full border, rounded */
+.box {
+  padding: 15px var(--space-12);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-md);
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--text-input-size);
+  font-weight: var(--text-input-weight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+}
+
+.input::placeholder {
+  color: var(--color-text-primary);
+  opacity: 0.4; /* Figma placeholder opacity */
+}
+
+.trailing {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}

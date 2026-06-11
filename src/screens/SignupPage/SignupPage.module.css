@@ -1,0 +1,64 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  width: var(--screen-width);
+  margin: 0 auto;
+  padding-bottom: 60px; /* Figma layout_BP9041 */
+  background-color: var(--color-surface);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-30);
+  padding: var(--space-24) var(--space-16) 0; /* Figma layout_N5YL2U */
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24); /* Figma layout_XJSM8R */
+}
+
+/* A label + control group (생년월일, 휴대폰, 주소, 성별) */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8); /* Figma layout_WCLSDQ */
+}
+
+.label {
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  opacity: 0.8;
+}
+
+.required {
+  color: var(--color-required);
+}
+
+/* Horizontal split row — year/month/day, phone parts, zip+button */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8); /* Figma layout_38C0IH */
+}
+
+.addressCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6); /* Figma layout_6NCI35 */
+}
+
+/* Zip field is fixed-width next to the 주소찾기 button (Figma layout_6ZLCCQ) */
+.zip {
+  flex: 0 0 auto;
+  width: 88px;
+}
+
+.submit {
+  display: flex;
+  width: 100%;
+}

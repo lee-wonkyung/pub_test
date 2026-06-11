@@ -1,0 +1,38 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px; /* Figma layout_HM9STP */
+  padding: 0 var(--space-16);
+  background-color: var(--color-surface);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.slot {
+  width: 24px; /* mirror the back button so the title stays centered */
+  height: 24px;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  line-height: var(--text-title-line);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}

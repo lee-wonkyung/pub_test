@@ -1,0 +1,83 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  width: var(--screen-width);
+  min-height: 852px;
+  margin: 0 auto;
+  background-color: var(--color-surface);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 var(--space-30);
+}
+
+/* Form block — Figma stacks it from y:317; here it sits below the header
+   with breathing room, matching the visual rhythm without absolute coords. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-30);
+  margin-top: 120px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16); /* Figma layout_PNTUKB */
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12); /* Figma layout_WT4HGM */
+}
+
+/* 아이디 찾기 | 비밀번호 찾기 */
+.helpLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  margin-top: var(--space-30);
+}
+
+.helpLink {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  color: var(--color-text-primary);
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.helpDivider {
+  width: 1px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* SNS 계정으로 로그인 with flanking lines */
+.snsDivider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  margin-top: auto;
+  padding-top: var(--space-30);
+  margin-bottom: var(--space-30);
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-divider);
+}
+
+.snsLabel {
+  font-size: var(--text-meta-size);
+  font-weight: var(--text-meta-weight);
+  color: var(--color-text-primary);
+  opacity: 0.4;
+  white-space: nowrap;
+}

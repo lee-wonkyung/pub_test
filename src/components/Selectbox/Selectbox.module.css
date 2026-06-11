@@ -1,0 +1,40 @@
+.box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  padding: 15px var(--space-12); /* Figma layout_4NQYRL */
+  border: 1px solid var(--color-border-select);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.select {
+  flex: 1 1 auto;
+  min-width: 0;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family-base);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-weight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+}
+
+/* Placeholder option dimmed until a real value is chosen */
+.select[data-empty="true"] {
+  color: var(--color-text-placeholder);
+}
+
+/* Chevron (Figma arrow-down icon, 16px) drawn with borders */
+.chevron {
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  margin-left: var(--space-8);
+  border-right: 1.5px solid var(--color-grey-mid-2);
+  border-bottom: 1.5px solid var(--color-grey-mid-2);
+  transform: rotate(45deg) translate(-1px, -1px);
+}
