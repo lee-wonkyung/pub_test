@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>투표 목록 - BLOT CMS</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- ===== 왼쪽 영역 (LNB / Sidebar) ===== -->
+    <aside class="sidebar">
+      <div class="sidebar__logo">
+        <span class="logo-mark">BLOT</span>
+        <span class="logo-sub">CMS</span>
+      </div>
+
+      <nav class="lnb" aria-label="주요 메뉴">
+        <ul class="lnb__list">
+          <li class="lnb__item">
+            <button type="button" class="lnb__top">시스템 설정</button>
+          </li>
+          <li class="lnb__item">
+            <button type="button" class="lnb__top">콘텐츠 관리</button>
+          </li>
+          <li class="lnb__item lnb__item--open">
+            <button type="button" class="lnb__top is-active">게시판 관리</button>
+            <ul class="lnb__sub">
+              <li><a href="#" class="lnb__link">자주 하는 질문</a></li>
+              <li><a href="#" class="lnb__link">공지사항</a></li>
+              <li><a href="#" class="lnb__link">1:1 문의</a></li>
+              <li><a href="#" class="lnb__link">뉴스레터</a></li>
+              <li><a href="#" class="lnb__link">신고글 관리</a></li>
+              <li><a href="#" class="lnb__link lnb__link--current" aria-current="page">투표 관리</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <button type="button" class="sidebar__collapse" aria-label="메뉴 접기"></button>
+    </aside>
+
+    <!-- ===== 본문 영역 ===== -->
+    <div class="main">
+      <!-- 유틸 영역 (Top header) -->
+      <header class="topbar">
+        <h1 class="topbar__title">게시판관리</h1>
+        <div class="topbar__util">
+          <button type="button" class="util-profile">
+            <span class="util-profile__avatar"></span>
+            <span class="util-profile__name">홍길동 님</span>
+          </button>
+          <button type="button" class="util-profile">
+            <span class="util-profile__avatar"></span>
+            <span class="util-profile__name">홍길동 님</span>
+          </button>
+          <button type="button" class="util-profile">
+            <span class="util-profile__avatar"></span>
+            <span class="util-profile__name">홍길동 님</span>
+          </button>
+          <button type="button" class="util-logout" aria-label="로그아웃"></button>
+        </div>
+      </header>
+
+      <!-- 콘텐츠 -->
+      <main class="content">
+        <h2 class="page-title">투표 목록</h2>
+
+        <!-- 검색 필터 -->
+        <section class="search-box" aria-label="검색 조건">
+          <div class="search-box__field search-box__field--label">
+            <span class="search-box__label">검색조건</span>
+          </div>
+          <div class="search-box__field">
+            <div class="select">
+              <span>제목</span>
+              <i class="select__arrow"></i>
+            </div>
+          </div>
+          <div class="search-box__field">
+            <div class="select">
+              <span>노출</span>
+              <i class="select__arrow"></i>
+            </div>
+          </div>
+          <div class="search-box__field search-box__field--grow">
+            <input type="text" class="input" placeholder="검색어 입력" />
+          </div>
+          <button type="button" class="btn btn--search">조회</button>
+        </section>
+
+        <!-- 검색결과 -->
+        <div class="result-bar">
+          <p class="result-bar__count">전체 <strong>13건</strong></p>
+          <div class="result-bar__right">
+            <div class="select select--sm">
+              <span>10개씩 보기</span>
+              <i class="select__arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 테이블 -->
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox" aria-label="전체 선택" /></th>
+                <th class="col-no">번호</th>
+                <th>설문/투표시작일</th>
+                <th>설문/투표종료일</th>
+                <th>Embed ID</th>
+                <th class="col-title">제목</th>
+                <th>유형</th>
+                <th>회원여부</th>
+                <th class="col-num">참여자</th>
+                <th>생성일</th>
+                <th>노출여부</th>
+                <th class="col-state">상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-check"><input type="checkbox" checked aria-label="행 선택" /></td>
+                <td class="col-no">999,999</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>vote099999</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--single">단일</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">12</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--off">비노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" checked aria-label="행 선택" /></td>
+                <td class="col-no">9</td>
+                <td class="is-empty">-</td>
+                <td>2026.04.13 12:59:59</td>
+                <td>vote000009</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--multi">복수</span></td>
+                <td>회원전용</td>
+                <td class="col-num">0</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--on">노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" aria-label="행 선택" /></td>
+                <td class="col-no">8</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>2026.04.11 12:59:59</td>
+                <td>vote000008</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--single">단일</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">2,345</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--off">비노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" checked aria-label="행 선택" /></td>
+                <td class="col-no">7</td>
+                <td>2026.04.14 12:59:59</td>
+                <td class="is-empty">-</td>
+                <td>vote000007</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--multi">복수</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">999,999</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--on">노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" aria-label="행 선택" /></td>
+                <td class="col-no">6</td>
+                <td class="is-empty">-</td>
+                <td class="is-empty">-</td>
+                <td>vote000006</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--single">단일</span></td>
+                <td>회원전용</td>
+                <td class="col-num">32</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--on">노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" checked aria-label="행 선택" /></td>
+                <td class="col-no">5</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>2026.04.03 12:59:59</td>
+                <td>vote000005</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--multi">복수</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">254</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--on">노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" checked aria-label="행 선택" /></td>
+                <td class="col-no">4</td>
+                <td class="is-empty">-</td>
+                <td>2026.03.23 12:59:59</td>
+                <td>vote000004</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--multi">복수</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">6,877</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--on">노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" aria-label="행 선택" /></td>
+                <td class="col-no">3</td>
+                <td>2026.04.14 12:59:59</td>
+                <td class="is-empty">-</td>
+                <td>vote000003</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--single">단일</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">342,676</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--off">비노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" aria-label="행 선택" /></td>
+                <td class="col-no">2</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>2026.03.04 12:59:59</td>
+                <td>vote000002</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--multi">복수</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">121</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--off">비노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" aria-label="행 선택" /></td>
+                <td class="col-no">1</td>
+                <td>2026.04.14 12:59:59</td>
+                <td>2026.02.28 12:59:59</td>
+                <td>vote000001</td>
+                <td class="col-title"><span class="ellipsis">1분만에 알아보는 에겐 vs 테토 셀프 TEST1분만에 알아보는 에겐 vs 테토 셀프 TEST1분만에 알아보는 에겐 vs 테토 셀프 TEST1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                <td><span class="tag tag--single">단일</span></td>
+                <td>비회원허용</td>
+                <td class="col-num">235,978</td>
+                <td>2026.04.14 12:59:59</td>
+                <td><span class="state state--off">비노출</span></td>
+                <td class="col-state">
+                  <button type="button" class="link-btn">결과</button>
+                  <button type="button" class="link-btn link-btn--danger">삭제</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <nav class="pagination" aria-label="페이지">
+          <button type="button" class="page-arrow" aria-label="처음">«</button>
+          <button type="button" class="page-arrow" aria-label="이전">‹</button>
+          <button type="button" class="page-num">1</button>
+          <button type="button" class="page-num is-active" aria-current="page">2</button>
+          <button type="button" class="page-num">3</button>
+          <button type="button" class="page-num">4</button>
+          <button type="button" class="page-num">5</button>
+          <button type="button" class="page-arrow" aria-label="다음">›</button>
+          <button type="button" class="page-arrow" aria-label="마지막">»</button>
+        </nav>
+
+        <!-- 하단 버튼 -->
+        <div class="content__actions">
+          <button type="button" class="btn btn--ghost">삭제</button>
+          <button type="button" class="btn btn--primary">등록</button>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

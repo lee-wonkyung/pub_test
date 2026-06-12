@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOT CNM · 게시판관리 · 투표 목록</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --sidebar:#111926;
+    --bg:#F7F9FD;
+    --purple:#5D00FF;
+    --purple-soft:#9D84FA;
+    --lav:#DDD3F2;
+    --lav-light:#EADAFF;
+    --ink:#15181C;
+    --text:#37393B;
+    --muted:#94A3B8;
+    --border:#E1E3E1;
+    --border-cool:#DDE5F0;
+    --black-btn:#15181C;
+    --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit;cursor:pointer;}
+
+  .stage{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    overflow-x:hidden;
+    background:#e6e9ef;
+  }
+  .scaler{transform-origin:top left;}
+  .canvas{
+    width:1920px;
+    min-height:1143px;
+    background:var(--bg);
+    display:flex;
+    position:relative;
+  }
+
+  /* ============ SIDEBAR ============ */
+  .sidebar{
+    width:225px;
+    flex:0 0 225px;
+    background:var(--sidebar);
+    min-height:1143px;
+    color:#fff;
+    position:relative;
+  }
+  .sidebar .logo{
+    height:72px;
+    display:flex;
+    align-items:center;
+    padding:0 38px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .sidebar .logo img{height:18px;width:auto;display:block;}
+
+  .lnb{padding-top:32px;display:flex;flex-direction:column;}
+  .lnb-item{
+    height:40px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 20px;
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    background:none;border:none;width:100%;text-align:left;
+    position:relative;
+  }
+  .lnb-item svg{width:20px;height:20px;flex:0 0 20px;opacity:.92;}
+  .lnb-item .chev{margin-left:auto;width:16px;height:16px;transition:transform .2s ease;}
+  .lnb-item.open .chev{transform:rotate(180deg);}
+  .lnb-item.active{background:rgba(93,0,255,.16);}
+  .lnb-item.active::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--purple);
+  }
+
+  .submenu{display:flex;flex-direction:column;padding:6px 0 6px;}
+  .submenu a{
+    height:36px;display:flex;align-items:center;gap:10px;
+    padding:0 20px 0 30px;color:rgba(255,255,255,.72);
+    font-size:14px;font-weight:500;letter-spacing:-.01em;text-decoration:none;
+  }
+  .submenu a .bullet{width:4px;height:4px;border-radius:99px;background:currentColor;flex:0 0 4px;}
+  .submenu a.on{color:var(--purple-soft);font-weight:700;}
+  .submenu a.on .bullet{background:var(--purple-soft);}
+
+  /* ============ MAIN ============ */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;}
+
+  .topbar{
+    height:91px;flex:0 0 91px;
+    background:#fff;
+    border-bottom:1px solid var(--border-cool);
+    display:flex;align-items:center;
+    padding:0 40px 0 36px;
+    gap:24px;
+  }
+  .topbar .page-title{font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
+  .topbar .spacer{flex:1;}
+  .profiles{display:flex;align-items:center;gap:36px;}
+  .profile{display:flex;align-items:center;gap:12px;}
+  .profile .ava{
+    width:46px;height:46px;border-radius:99px;overflow:hidden;flex:0 0 46px;
+    display:flex;align-items:center;justify-content:center;background:#F1F2F6;
+    border:1px solid var(--border);
+  }
+  .profile .ava img{width:100%;height:100%;object-fit:cover;display:block;}
+  .profile .ava.mark img{width:62%;height:auto;}
+  .profile .ava svg{width:24px;height:24px;color:#94A3B8;}
+  .profile .meta{display:flex;flex-direction:column;gap:3px;}
+  .profile .meta .name{font-size:15px;font-weight:700;color:#3556FC;letter-spacing:-.01em;}
+  .profile .meta .role{font-size:13px;color:var(--muted);letter-spacing:-.01em;}
+  .logout{
+    display:flex;flex-direction:column;align-items:center;gap:4px;margin-left:6px;
+    background:none;border:none;color:var(--text);
+  }
+  .logout svg{width:24px;height:24px;}
+  .logout span{font-size:12px;letter-spacing:-.02em;}
+
+  .content{padding:36px 40px 60px;display:flex;flex-direction:column;}
+  .list-title{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.02em;margin-bottom:20px;}
+
+  /* filter card */
+  .filter{
+    background:#fff;border:1px solid var(--border-cool);border-radius:12px;
+    padding:28px 32px;display:flex;align-items:center;gap:20px;margin-bottom:28px;
+  }
+  .filter .flabel{font-size:16px;font-weight:600;color:var(--ink);flex:0 0 auto;}
+  .select{
+    height:54px;border:1px solid var(--border);border-radius:8px;background:#fff;
+    display:flex;align-items:center;justify-content:space-between;padding:0 18px;
+    font-size:15px;color:var(--ink);cursor:pointer;
+  }
+  .select svg{width:18px;height:18px;color:#8A8F98;flex:0 0 18px;}
+  .select.cond{flex:1 1 0;}
+  .select.expose{flex:0 0 280px;}
+  .search-input{
+    flex:1 1 0;height:54px;border:1px solid var(--border);border-radius:8px;background:#fff;
+    padding:0 18px;font-family:var(--font);font-size:15px;color:var(--ink);outline:none;
+  }
+  .search-input::placeholder{color:#B9BFC9;}
+  .btn-search{
+    flex:0 0 120px;height:54px;border-radius:8px;border:none;background:var(--black-btn);
+    color:#fff;font-size:16px;font-weight:700;letter-spacing:-.01em;
+  }
+
+  /* table toolbar */
+  .tbl-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .total{font-size:15px;color:var(--text);}
+  .total b{font-weight:700;color:var(--ink);}
+  .perpage{
+    height:42px;border:1px solid var(--border);border-radius:8px;background:#fff;
+    display:flex;align-items:center;gap:14px;padding:0 16px;font-size:14px;color:var(--ink);cursor:pointer;
+  }
+  .perpage svg{width:16px;height:16px;color:#8A8F98;}
+
+  /* table */
+  .table{width:100%;border-collapse:collapse;background:transparent;table-layout:fixed;}
+  .table thead th{
+    height:54px;font-size:14px;font-weight:700;color:var(--ink);
+    border-top:1px solid #C7CCD2;border-bottom:1px solid #C7CCD2;
+    white-space:nowrap;padding:0 10px;text-align:center;letter-spacing:-.01em;
+  }
+  .table thead th .th-in{display:inline-flex;align-items:center;gap:5px;justify-content:center;}
+  .table thead th .sort{display:inline-flex;flex-direction:column;line-height:0;color:#C2C7CE;}
+  .table thead th .sort svg{width:9px;height:9px;display:block;}
+  .table thead th .sort .up.act,.table thead th .sort .down.act{color:var(--ink);}
+  .table tbody td{
+    height:62px;font-size:14px;color:var(--text);border-bottom:1px solid #EDEFF2;
+    padding:0 10px;text-align:center;white-space:nowrap;letter-spacing:-.01em;
+  }
+  .table tbody tr:hover{background:#FBFAFF;}
+  .col-check{width:56px;}
+  .col-no{width:96px;font-weight:500;color:var(--ink);}
+  .col-date{width:170px;}
+  .col-embed{width:130px;}
+  .col-title{text-align:left !important;padding-left:18px;}
+  .col-title .ttl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;}
+  .col-type{width:70px;}
+  .col-member{width:108px;}
+  .col-join{width:96px;}
+  .col-created{width:180px;}
+  .col-expose{width:84px;}
+  .col-state{width:118px;}
+
+  .badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:23px;padding:0 11px;border-radius:30px;
+    font-size:12px;font-weight:700;letter-spacing:-.02em;
+  }
+  .badge.type{background:var(--lav);color:#15181C;}
+  .badge.member{background:var(--lav-light);color:var(--purple);}
+
+  .lnk{font-size:14px;font-weight:500;letter-spacing:-.01em;cursor:pointer;}
+  .lnk.expose{color:var(--purple);font-weight:700;}
+  .lnk.hide{color:#9BA1AB;}
+  .state-cell{display:inline-flex;gap:14px;align-items:center;}
+  .state-cell .lnk{color:#8A8F98;}
+  .state-cell .lnk:hover{color:var(--ink);}
+
+  /* checkbox */
+  .chk{
+    width:20px;height:20px;border-radius:5px;border:1.5px solid #C7CCD2;background:#fff;
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;vertical-align:middle;
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .chk svg{width:12px;height:12px;color:#fff;opacity:0;}
+  .chk.on{background:var(--purple);border-color:var(--purple);}
+  .chk.on svg{opacity:1;}
+
+  /* pagination */
+  .pagination{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:40px;}
+  .pg{
+    width:40px;height:40px;border-radius:10px;border:none;background:transparent;
+    font-size:15px;font-weight:600;color:#6B7280;display:flex;align-items:center;justify-content:center;
+  }
+  .pg.num{background:#fff;border:1px solid var(--border);}
+  .pg.num.on{background:var(--purple);color:#fff;border-color:var(--purple);}
+  .pg.arrow{color:#C2C7CE;}
+
+  /* footer actions */
+  .actions{display:flex;justify-content:flex-end;gap:16px;margin-top:48px;}
+  .btn-lg{height:64px;min-width:160px;padding:0 40px;border-radius:10px;font-size:18px;font-weight:700;letter-spacing:-.01em;border:none;}
+  .btn-del{background:#fff;border:1px solid #C7CCD2;color:var(--ink);}
+  .btn-reg{background:var(--black-btn);color:#fff;}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="scaler" id="scaler">
+      <div class="canvas" data-screen-label="게시판관리 · 투표 목록">
+
+        <!-- ============ SIDEBAR ============ -->
+        <aside class="sidebar">
+          <div class="logo">
+            <img src="assets/blot-cnm-logo.svg" alt="BLOT CNM">
+          </div>
+          <nav class="lnb">
+            <button class="lnb-item">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6" cy="5" r="1.6"/><line x1="6" y1="7" x2="6" y2="17"/><line x1="6" y1="3" x2="6" y2="3.5"/><circle cx="14" cy="13" r="1.6"/><line x1="14" y1="3" x2="14" y2="11"/><line x1="14" y1="15" x2="14" y2="17"/><line x1="2" y1="10" x2="18" y2="10" opacity="0"/></svg>
+              <span>시스템 설정</span>
+            </button>
+            <button class="lnb-item">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="12" height="14" rx="2"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="13" x2="11" y2="13"/></svg>
+              <span>콘텐츠 관리</span>
+            </button>
+            <button class="lnb-item active open" id="board-toggle">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5l9-3.5 5 2-9 3.5z"/><path d="M3 6.5v7l9 3.5 5-2v-7"/><path d="M12 9.5v7"/></svg>
+              <span>게시판 관리</span>
+              <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>
+            </button>
+            <div class="submenu" id="board-sub">
+              <a><span class="bullet"></span>자주 하는 질문</a>
+              <a><span class="bullet"></span>공지사항</a>
+              <a><span class="bullet"></span>1:1 문의</a>
+              <a><span class="bullet"></span>뉴스레터</a>
+              <a><span class="bullet"></span>신고글 관리</a>
+              <a class="on"><span class="bullet"></span>투표 관리</a>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- ============ MAIN ============ -->
+        <main class="main">
+          <!-- top bar -->
+          <header class="topbar">
+            <span class="page-title">게시판관리</span>
+            <span class="spacer"></span>
+            <div class="profiles">
+              <div class="profile">
+                <span class="ava">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.6"/><path d="M5 19c0-3.4 3.1-5.5 7-5.5s7 2.1 7 5.5"/></svg>
+                </span>
+                <div class="meta"><span class="name">홍비롯 님</span><span class="role">비롯 시스템관리자</span></div>
+              </div>
+              <div class="profile">
+                <span class="ava mark"><img src="assets/blot-mark.png" alt="B'"></span>
+                <div class="meta"><span class="name">홍비롯 님</span><span class="role">비롯 시스템관리자</span></div>
+              </div>
+              <div class="profile">
+                <span class="ava"><img src="assets/avatar-mushroom.png" alt="프로필"></span>
+                <div class="meta"><span class="name">홍비롯 님</span><span class="role">비롯 시스템관리자</span></div>
+              </div>
+            </div>
+            <button class="logout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2"/><path d="M10 12h10M17 9l3 3-3 3"/></svg>
+              <span>로그아웃</span>
+            </button>
+          </header>
+
+          <!-- content -->
+          <section class="content">
+            <h1 class="list-title">투표 목록</h1>
+
+            <!-- filter -->
+            <div class="filter">
+              <span class="flabel">검색조건</span>
+              <div class="select cond">
+                <span>제목</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="select expose">
+                <span>노출</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <input class="search-input" type="text" placeholder="검색어 입력">
+              <button class="btn-search">조회</button>
+            </div>
+
+            <!-- toolbar -->
+            <div class="tbl-toolbar">
+              <span class="total">전체 <b>13개</b></span>
+              <div class="perpage">
+                <span>10개씩 보기</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+            </div>
+
+            <!-- table -->
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-check"><span class="chk" data-all></span></th>
+                  <th class="col-no">번호</th>
+                  <th class="col-date"><span class="th-in">설문/투표시작일<span class="sort"><svg class="up" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0l5 6H0z"/></svg><svg class="down" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0h10z"/></svg></span></span></th>
+                  <th class="col-date"><span class="th-in">설문/투표종료일<span class="sort"><svg class="up act" viewBox="0 0 10 6" fill="currentColor"><path d="M5 0l5 6H0z"/></svg><svg class="down" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0h10z"/></svg></span></span></th>
+                  <th class="col-embed">Embed ID</th>
+                  <th class="col-title"><span class="th-in">제목<span class="sort"><svg class="down act" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0h10z"/></svg></span></span></th>
+                  <th class="col-type">유형</th>
+                  <th class="col-member">회원여부</th>
+                  <th class="col-join">참여자</th>
+                  <th class="col-created"><span class="th-in">생성일<span class="sort"><svg class="down act" viewBox="0 0 10 6" fill="currentColor"><path d="M5 6L0 0h10z"/></svg></span></span></th>
+                  <th class="col-expose">노출여부</th>
+                  <th class="col-state">상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">999,999</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-embed">vote099999</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">단일</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">12</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk hide">비노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk on"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span></td>
+                  <td class="col-no">9</td>
+                  <td class="col-date">-</td>
+                  <td class="col-date">2026.04.13 12:59:59</td>
+                  <td class="col-embed">vote000009</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">복수</span></td>
+                  <td class="col-member"><span class="badge member">회원전용</span></td>
+                  <td class="col-join">0</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk expose">노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">8</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">2026.04.11 12:59:59</td>
+                  <td class="col-embed">vote000008</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">단일</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">2,345</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk hide">비노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">7</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">-</td>
+                  <td class="col-embed">vote000007</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">복수</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">999,999</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk expose">노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">6</td>
+                  <td class="col-date">-</td>
+                  <td class="col-date">-</td>
+                  <td class="col-embed">vote000006</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">단일</span></td>
+                  <td class="col-member"><span class="badge member">회원전용</span></td>
+                  <td class="col-join">32</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk expose">노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk on"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span></td>
+                  <td class="col-no">5</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">2026.04.03 12:59:59</td>
+                  <td class="col-embed">vote000005</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">복수</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">254</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk expose">노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk on"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span></td>
+                  <td class="col-no">4</td>
+                  <td class="col-date">-</td>
+                  <td class="col-date">2026.03.23 12:59:59</td>
+                  <td class="col-embed">vote000004</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">복수</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">6,877</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk expose">노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">3</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">-</td>
+                  <td class="col-embed">vote000003</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">단일</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">342,676</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk hide">비노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">2</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">2026.03.04 12:59:59</td>
+                  <td class="col-embed">vote000002</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST</span></td>
+                  <td class="col-type"><span class="badge type">복수</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">121</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk hide">비노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><span class="chk"></span></td>
+                  <td class="col-no">1</td>
+                  <td class="col-date">2026.04.14 12:59:59</td>
+                  <td class="col-date">2026.02.28 12:59:59</td>
+                  <td class="col-embed">vote000001</td>
+                  <td class="col-title"><span class="ttl">1분만에 알아보는 에겐 vs 테토 셀프 TEST1분만에</span></td>
+                  <td class="col-type"><span class="badge type">단일</span></td>
+                  <td class="col-member"><span class="badge member">비회원허용</span></td>
+                  <td class="col-join">235,978</td>
+                  <td class="col-created">2026.04.14 12:59:59</td>
+                  <td class="col-expose"><span class="lnk hide">비노출</span></td>
+                  <td class="col-state"><span class="state-cell"><span class="lnk">결과</span><span class="lnk">삭제</span></span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- pagination -->
+            <div class="pagination">
+              <button class="pg arrow" aria-label="이전"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button class="pg num">1</button>
+              <button class="pg num on">2</button>
+              <button class="pg num">3</button>
+              <button class="pg num">4</button>
+              <button class="pg num">5</button>
+              <button class="pg arrow" aria-label="다음"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+
+            <!-- footer actions -->
+            <div class="actions">
+              <button class="btn-lg btn-del">삭제</button>
+              <button class="btn-lg btn-reg">등록</button>
+            </div>
+          </section>
+        </main>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  // scale 1920 canvas to fit viewport width
+  const scaler = document.getElementById('scaler');
+  const canvas = scaler.querySelector('.canvas');
+  function fit(){
+    const scale = Math.min(1, window.innerWidth / 1920);
+    scaler.style.transform = 'scale(' + scale + ')';
+    scaler.style.width = (1920 * scale) + 'px';
+    scaler.style.height = (canvas.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  fit();
+
+  // checkbox toggles
+  const checkSvg = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg>';
+  document.querySelectorAll('.chk:not([data-all])').forEach(c=>{
+    if(!c.querySelector('svg')) c.innerHTML = checkSvg;
+    c.addEventListener('click', ()=>{ c.classList.toggle('on'); syncAll(); });
+  });
+  const allChk = document.querySelector('.chk[data-all]');
+  allChk.innerHTML = checkSvg;
+  allChk.addEventListener('click', ()=>{
+    const on = !allChk.classList.contains('on');
+    allChk.classList.toggle('on', on);
+    document.querySelectorAll('.table tbody .chk').forEach(c=>c.classList.toggle('on', on));
+  });
+  function syncAll(){
+    const rows = [...document.querySelectorAll('.table tbody .chk')];
+    const allOn = rows.length && rows.every(c=>c.classList.contains('on'));
+    allChk.classList.toggle('on', allOn);
+  }
+
+  // expose toggle (노출 / 비노출)
+  document.querySelectorAll('.lnk.expose, .lnk.hide').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const isHidden = el.classList.contains('hide');
+      el.classList.toggle('hide', !isHidden);
+      el.classList.toggle('expose', isHidden);
+      el.textContent = isHidden ? '노출' : '비노출';
+    });
+  });
+
+  // pagination
+  document.querySelectorAll('.pg.num').forEach(p=>{
+    p.addEventListener('click', ()=>{
+      document.querySelectorAll('.pg.num').forEach(x=>x.classList.remove('on'));
+      p.classList.add('on');
+    });
+  });
+
+  // sidebar submenu collapse
+  const boardToggle = document.getElementById('board-toggle');
+  const boardSub = document.getElementById('board-sub');
+  boardToggle.addEventListener('click', ()=>{
+    boardToggle.classList.toggle('open');
+    boardSub.style.display = boardToggle.classList.contains('open') ? 'flex' : 'none';
+  });
+</script>
+</body>
+</html>
