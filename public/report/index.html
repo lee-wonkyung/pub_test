@@ -5,6 +5,27 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>AI 기반 퍼블리싱 생산성 향상 도구 검증 결과 보고서</title>
+	<meta name="description" content="Figma 디자인을 기반으로 AI를 활용한 코드 생성 가능성을 검증하고, 실제 퍼블리싱 업무에 적용 가능한 수준인지 확인한 검증 결과 보고서." />
+
+	<!-- 썸네일(링크 미리보기) — 카카오톡/슬랙/페이스북 등 -->
+	<!-- og:url, og:image 는 실제 배포 도메인의 절대경로(https://...)로 교체 필요 -->
+	<meta property="og:type" content="article" />
+	<meta property="og:site_name" content="BLOTCNM" />
+	<meta property="og:title" content="AI 기반 퍼블리싱 생산성 향상 도구 검증 결과 보고서" />
+	<meta property="og:description" content="Figma 디자인 기반 AI 코드 생성 가능성 검증 · 퍼블리싱 생산성 향상 가능성 검증 결과 보고서." />
+	<meta property="og:url" content="https://example.com/report/" />
+	<meta property="og:image" content="https://example.com/report/images/og-thumbnail.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="AI 기반 퍼블리싱 생산성 향상 도구 검증 결과 보고서" />
+	<meta property="og:locale" content="ko_KR" />
+
+	<!-- 트위터(X) 카드 -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AI 기반 퍼블리싱 생산성 향상 도구 검증 결과 보고서" />
+	<meta name="twitter:description" content="Figma 디자인 기반 AI 코드 생성 가능성 검증 · 퍼블리싱 생산성 향상 가능성 검증 결과 보고서." />
+	<meta name="twitter:image" content="https://example.com/report/images/og-thumbnail.png" />
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 	<style>
 		:root {
@@ -102,6 +123,22 @@
 			color: var(--sub);
 			letter-spacing: 0.04em;
 			line-height: 2;
+		}
+
+		/* 대표 이미지(히어로) — src 입력 전엔 빈 자리 패턴이 보임 */
+		.hero {
+			margin-top: 44px;
+			border: 1px solid var(--line);
+			background: #fff;
+			aspect-ratio: 1536 / 1024;
+			overflow: hidden;
+		}
+
+		.hero img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			display: block;
 		}
 
 		section {
@@ -563,6 +600,9 @@
 			<div class="meta reveal d2">
 				작성자 : 이원경 | 작성일 : 2026.06 | 버전 : v1.0
 			</div>
+
+			<figure class="hero reveal d2"><img src="images/og-thumbnail.png" alt="대표 이미지" /></figure>
+
 		</div>
 	</header>
 
