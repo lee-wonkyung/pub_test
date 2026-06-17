@@ -411,6 +411,42 @@
 			font-size: 14.5px;
 		}
 
+		/* 가이드 바로가기 버튼 */
+		.cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			background: var(--accent);
+			color: #fff;
+			font-weight: 700;
+			font-size: 14.5px;
+			letter-spacing: -0.01em;
+			text-decoration: none;
+			padding: 13px 22px;
+			margin: 6px 0 4px;
+			transition: background 0.2s ease, transform 0.2s ease;
+		}
+
+		.cta:hover {
+			background: #0f5246;
+			transform: translateY(-1px);
+		}
+
+		.cta .arrow {
+			font-family: var(--mono);
+			font-size: 15px;
+		}
+
+		.cta .tag {
+			font-family: var(--mono);
+			font-size: 10.5px;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			background: var(--lime);
+			color: #000;
+			padding: 2px 7px;
+		}
+
 		.warn {
 			background: #f3f3f3;
 			border-left: 3px solid var(--warn);
@@ -650,6 +686,11 @@
 					MCP 기반 워크플로우를 검토하는 방안을 권장함.
 				</p>
 			</div>
+			<a class="cta reveal" href="../guide/">
+				<span class="tag">Guide</span>
+				Claude Design 워크플로우 가이드 보기
+				<span class="arrow">→</span>
+			</a>
 		</div>
 	</section>
 
